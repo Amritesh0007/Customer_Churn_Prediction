@@ -79,6 +79,11 @@ Customer_Churn_Prediction/
     ├── WEB_DASHBOARD_GUIDE.md        # Web dashboard documentation
     └── DASHBOARD_GUIDE.md            # Static dashboard guide
 ```
+---
+## Project Architecture ---
+
+<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/f0655bcd-73a4-49c2-8429-3aba5b38a23c" />
+
 
 ---
 
