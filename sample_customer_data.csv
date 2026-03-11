@@ -1,0 +1,6 @@
+customer_id,age,gender,city,occupation,dependents,income,transaction_frequency,transaction_amount,last_transaction_days,account_balance,payment_failures,app_login_frequency,email_open_rate,feature_usage,website_visits,session_duration,complaints,support_calls,refund_requests,service_tickets
+C001,35,Male,London,Engineer,1,75000,12,5000,15,15000,0,18,0.65,7,12,20,1,0,0,1
+C002,45,Female,New York,Doctor,2,120000,8,8000,45,25000,2,10,0.45,6,8,15,3,2,1,2
+C003,28,Male,Tokyo,Artist,0,45000,20,3000,5,8000,1,25,0.80,9,20,25,0,1,0,0
+C004,52,Female,Berlin,Teacher,3,65000,6,4500,90,12000,4,3,0.15,3,5,10,5,4,2,3
+C005,67,Male,Mumbai,Sales,1,55000,4,6000,120,5000,5,2,0.08,2,3,8,6,5,3,4
