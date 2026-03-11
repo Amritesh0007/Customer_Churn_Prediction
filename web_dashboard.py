@@ -271,7 +271,11 @@ elif page == "🔮 Predict Customer Churn":
     col1, col2 = st.columns(2)
     
     with col1:
-        st.subheader("👤 Customer Demographics")
+        st.subheader("👤 Customer Information")
+        customer_id = st.text_input("Customer ID", placeholder="e.g., C001234")
+        customer_name = st.text_input("Customer Name", placeholder="e.g., John Doe")
+        
+        st.subheader("Demographics")
         age = st.slider("Age", 18, 70, 35)
         gender = st.selectbox("Gender", ["Male", "Female", "Non-binary"])
         city = st.selectbox("City", ["New York", "London", "Tokyo", "Berlin", "Mumbai"])
@@ -324,6 +328,8 @@ elif page == "🔮 Predict Customer Churn":
     if st.button("🎯 Predict Churn Risk", type="primary", use_container_width=True):
         # Create customer data dictionary
         customer_data = {
+            'customer_id': customer_id if customer_id else "N/A",
+            'customer_name': customer_name if customer_name else "N/A",
             'age': age,
             'gender': gender,
             'city': city,
@@ -346,10 +352,31 @@ elif page == "🔮 Predict Customer Churn":
             'service_tickets': service_tickets
         }
         
-        # Encode categorical variables
-        customer_df = pd.DataFrame([customer_data])
+        # Create DataFrame for prediction (excluding customer_id and customer_name)
+        customer_df = pd.DataFrame([{
+            'age': age,
+            'gender': gender,
+            'city': city,
+            'occupation': occupation,
+            'dependents': dependents,
+            'income': income,
+            'transaction_frequency': transaction_frequency,
+            'transaction_amount': transaction_amount,
+            'last_transaction_days': last_transaction_days,
+            'account_balance': account_balance,
+            'payment_failures': payment_failures,
+            'app_login_frequency': app_login_frequency,
+            'email_open_rate': email_open_rate,
+            'feature_usage': feature_usage,
+            'website_visits': website_visits,
+            'session_duration': session_duration,
+            'complaints': complaints,
+            'support_calls': support_calls,
+            'refund_requests': refund_requests,
+            'service_tickets': service_tickets
+        }])
         
-        # Use existing encoders from the data
+        # Encode categorical variables
         try:
             if gender in le_gender.classes_:
                 customer_df['gender'] = le_gender.transform([gender])
@@ -378,11 +405,14 @@ elif page == "🔮 Predict Customer Churn":
         churn_prob = model.predict_proba(customer_df)[0][1]
         churn_pred = model.predict(customer_df)[0]
         
-        # Store prediction
+        # Store prediction with customer details
         st.session_state.predictions.append({
+            'customer_id': customer_data['customer_id'],
+            'customer_name': customer_data['customer_name'],
             'customer': customer_data,
             'probability': churn_prob,
-            'prediction': churn_pred
+            'prediction': churn_pred,
+            'timestamp': pd.Timestamp.now()
         })
         
         # Display Results
@@ -399,6 +429,15 @@ elif page == "🔮 Predict Customer Churn":
         else:
             risk_level = "🟢 LOW RISK"
             risk_class = "prediction-low"
+        
+        # Display customer info
+        if customer_id or customer_name:
+            st.subheader("👤 Customer Details")
+            info_col1, info_col2 = st.columns(2)
+            with info_col1:
+                st.info(f"**Customer ID:** {customer_data['customer_id']}")
+            with info_col2:
+                st.info(f"**Customer Name:** {customer_data['customer_name']}")
         
         col1, col2 = st.columns(2)
         
